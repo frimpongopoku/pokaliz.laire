@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { appointments, type AppointmentStatus, type Appointment } from "@/lib/admin-data";
 import { AppointmentViewSheet } from "@/components/admin/AppointmentViewSheet";
+import { NewBookingSheet } from "@/components/admin/NewBookingSheet";
 import { Search, Plus, Clock, MoreHorizontal, Check, X, RefreshCw } from "lucide-react";
 
 const ALL_STATUSES: (AppointmentStatus | "All")[] = [
@@ -24,6 +25,7 @@ export default function AppointmentsPage() {
   const [activeStatus, setActiveStatus] = useState<AppointmentStatus | "All">("All");
   const [search, setSearch] = useState("");
   const [viewingAppt, setViewingAppt] = useState<Appointment | undefined>(undefined);
+  const [newBookingOpen, setNewBookingOpen] = useState(false);
 
   const filtered = appointments.filter((a) => {
     const matchStatus = activeStatus === "All" || a.status === activeStatus;
@@ -45,6 +47,7 @@ export default function AppointmentsPage() {
     <>
       <AdminHeader title="Appointments" subtitle={`${filtered.length} total`} />
       <AppointmentViewSheet open={!!viewingAppt} onOpenChange={(o) => !o && setViewingAppt(undefined)} appointment={viewingAppt} />
+      <NewBookingSheet open={newBookingOpen} onOpenChange={setNewBookingOpen} />
 
       <div className="p-6 space-y-5">
         {/* Toolbar */}
@@ -59,7 +62,10 @@ export default function AppointmentsPage() {
               className="bg-[#110E16] border border-[#1C1828] pl-8 pr-4 py-2.5 text-[12px] text-[#C0B8CC] placeholder:text-[#3D3550] focus:border-[#C9A55A]/50 focus:outline-none transition-colors w-64 rounded-sm"
             />
           </div>
-          <button className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm">
+          <button
+            onClick={() => setNewBookingOpen(true)}
+            className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm"
+          >
             <Plus size={13} /> New Booking
           </button>
         </div>

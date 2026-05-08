@@ -1,6 +1,12 @@
 {
-  "version": "0.7.0",
+  "version": "0.8.0",
   "changelog": [
+    {
+      "version": "0.8.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Admin New Booking sheet — client search (existing customers) or new client entry, service accordion picker, staff grid with status dots, date input + time select, status toggle, notes, live summary pill."
+    },
     {
       "version": "0.7.0",
       "date": "2026-05-08",
