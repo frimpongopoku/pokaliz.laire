@@ -17,75 +17,65 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/admin",              label: "Overview",      icon: LayoutDashboard },
-  { href: "/admin/appointments", label: "Appointments",  icon: CalendarDays    },
-  { href: "/admin/customers",    label: "Customers",     icon: Users           },
-  { href: "/admin/products",     label: "Products",      icon: Package         },
-  { href: "/admin/staff",        label: "Staff",         icon: UserCog         },
+  { href: "/admin",              label: "Overview",     icon: LayoutDashboard },
+  { href: "/admin/appointments", label: "Appointments", icon: CalendarDays    },
+  { href: "/admin/customers",    label: "Customers",    icon: Users           },
+  { href: "/admin/products",     label: "Products",     icon: Package         },
+  { href: "/admin/staff",        label: "Staff",        icon: UserCog         },
 ];
 
 const bottomItems = [
-  { href: "/admin/settings", label: "Settings", icon: Settings },
-  { href: "/",               label: "View Site", icon: Globe   },
+  { href: "/admin/settings", label: "Settings",  icon: Settings },
+  { href: "/",               label: "View Site", icon: Globe    },
 ];
 
 export function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
-
   const isActive = (href: string) =>
     href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
 
   return (
     <motion.aside
-      animate={{ width: collapsed ? 68 : 240 }}
-      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-      className="relative flex-shrink-0 h-screen bg-[#07050A] border-r border-[#141118] flex flex-col overflow-hidden sticky top-0"
+      animate={{ width: collapsed ? 64 : 220 }}
+      transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+      className="relative flex-shrink-0 h-screen bg-[#080610] border-r border-[#1C1828] flex flex-col overflow-hidden sticky top-0"
     >
       {/* Logo */}
-      <div className="h-16 flex items-center px-4 border-b border-[#141118] flex-shrink-0">
+      <div className="h-14 flex items-center px-4 border-b border-[#1C1828] flex-shrink-0">
         <Link href="/admin" className="flex items-center gap-3 min-w-0">
-          <div className="w-7 h-7 bg-[#C9A55A] flex-shrink-0 flex items-center justify-center">
-            <span className="text-[10px] font-semibold text-[#0D0B0E]" style={{ fontFamily: "var(--font-cormorant)" }}>PL</span>
+          <div className="w-7 h-7 bg-[#C9A55A] flex-shrink-0 flex items-center justify-center text-[11px] font-bold text-[#0D0B0E]">
+            PL
           </div>
           <AnimatePresence>
             {!collapsed && (
-              <motion.div
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.2 }}
-                className="leading-none overflow-hidden"
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="text-[13px] font-600 text-[#E8E0F0] whitespace-nowrap font-semibold tracking-wide"
               >
-                <div className="text-sm font-light tracking-[0.2em] text-[#F2ECE4] uppercase whitespace-nowrap" style={{ fontFamily: "var(--font-cormorant)" }}>
-                  Pokaliz
-                </div>
-                <div className="text-[9px] tracking-[0.4em] text-[#C9A55A] uppercase whitespace-nowrap" style={{ fontFamily: "var(--font-cormorant)" }}>
-                  Laire Admin
-                </div>
-              </motion.div>
+                Pokaliz Admin
+              </motion.span>
             )}
           </AnimatePresence>
         </Link>
       </div>
 
-      {/* Nav items */}
-      <nav className="flex-1 py-4 overflow-y-auto overflow-x-hidden">
-        <div className="space-y-1 px-2">
+      {/* Nav */}
+      <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden">
+        <div className="px-2 space-y-0.5">
           {navItems.map(({ href, label, icon: Icon }) => {
             const active = isActive(href);
             return (
               <Link key={href} href={href}>
-                <div
-                  className={`flex items-center gap-3 px-3 py-2.5 transition-all duration-200 group relative ${
-                    active
-                      ? "bg-[#C9A55A]/10 text-[#C9A55A]"
-                      : "text-[#554D60] hover:text-[#887A90] hover:bg-[#141118]"
-                  }`}
-                >
-                  {active && (
-                    <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#C9A55A]" />
-                  )}
+                <div className={`relative flex items-center gap-3 px-3 py-2.5 rounded-sm transition-all duration-150 group ${
+                  active
+                    ? "bg-[#C9A55A]/12 text-[#C9A55A]"
+                    : "text-[#6B6378] hover:text-[#C0B8CC] hover:bg-[#1C1828]"
+                }`}>
+                  {active && <div className="absolute left-0 top-1 bottom-1 w-0.5 bg-[#C9A55A] rounded-r" />}
                   <Icon size={16} className="flex-shrink-0" />
                   <AnimatePresence>
                     {!collapsed && (
@@ -93,20 +83,15 @@ export function AdminSidebar() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        className="text-[11px] tracking-[0.12em] uppercase whitespace-nowrap"
-                        style={{ fontFamily: "var(--font-manrope)" }}
+                        transition={{ duration: 0.12 }}
+                        className="text-[13px] font-medium whitespace-nowrap"
                       >
                         {label}
                       </motion.span>
                     )}
                   </AnimatePresence>
-
-                  {/* Tooltip when collapsed */}
                   {collapsed && (
-                    <div className="absolute left-full ml-2 bg-[#141118] border border-[#2C2438] text-[#F2ECE4] text-[10px] px-2.5 py-1.5 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50"
-                      style={{ fontFamily: "var(--font-manrope)" }}
-                    >
+                    <div className="absolute left-full ml-2 z-50 bg-[#1C1828] border border-[#2C2438] text-[#E8E0F0] text-xs px-2.5 py-1.5 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg">
                       {label}
                     </div>
                   )}
@@ -116,13 +101,12 @@ export function AdminSidebar() {
           })}
         </div>
 
-        {/* Divider */}
-        <div className="mx-3 my-4 border-t border-[#141118]" />
+        <div className="mx-3 my-3 border-t border-[#1C1828]" />
 
-        <div className="space-y-1 px-2">
+        <div className="px-2 space-y-0.5">
           {bottomItems.map(({ href, label, icon: Icon }) => (
             <Link key={href} href={href}>
-              <div className="flex items-center gap-3 px-3 py-2.5 text-[#2C2438] hover:text-[#554D60] hover:bg-[#141118] transition-all duration-200 group relative">
+              <div className="relative flex items-center gap-3 px-3 py-2.5 rounded-sm text-[#3D3550] hover:text-[#6B6378] hover:bg-[#1C1828] transition-all duration-150 group">
                 <Icon size={15} className="flex-shrink-0" />
                 <AnimatePresence>
                   {!collapsed && (
@@ -130,17 +114,14 @@ export function AdminSidebar() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="text-[11px] tracking-[0.12em] uppercase whitespace-nowrap"
-                      style={{ fontFamily: "var(--font-manrope)" }}
+                      className="text-[13px] font-medium whitespace-nowrap"
                     >
                       {label}
                     </motion.span>
                   )}
                 </AnimatePresence>
                 {collapsed && (
-                  <div className="absolute left-full ml-2 bg-[#141118] border border-[#2C2438] text-[#F2ECE4] text-[10px] px-2.5 py-1.5 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50"
-                    style={{ fontFamily: "var(--font-manrope)" }}
-                  >
+                  <div className="absolute left-full ml-2 z-50 bg-[#1C1828] border border-[#2C2438] text-[#E8E0F0] text-xs px-2.5 py-1.5 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-lg">
                     {label}
                   </div>
                 )}
@@ -153,7 +134,7 @@ export function AdminSidebar() {
       {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="h-10 border-t border-[#141118] flex items-center justify-center text-[#2C2438] hover:text-[#554D60] hover:bg-[#141118] transition-all duration-200 flex-shrink-0"
+        className="h-9 border-t border-[#1C1828] flex items-center justify-center text-[#3D3550] hover:text-[#6B6378] hover:bg-[#1C1828] transition-all duration-150 flex-shrink-0"
       >
         {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
       </button>

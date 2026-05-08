@@ -1,6 +1,18 @@
 {
-  "version": "0.1.0",
+  "version": "0.3.0",
   "changelog": [
+    {
+      "version": "0.3.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Admin dashboard font overhaul — Plus Jakarta Sans throughout, improved text contrast and hierarchy, removed decorative styling from all admin pages."
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Admin dashboard UI — overview, appointments, customers, products, staff pages with SVG revenue chart and dummy data."
+    },
     {
       "version": "0.1.0",
       "date": "2026-05-08",

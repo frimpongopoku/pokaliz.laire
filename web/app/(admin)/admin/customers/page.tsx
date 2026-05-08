@@ -7,9 +7,9 @@ import { customers } from "@/lib/admin-data";
 import { Search, UserPlus, MoreHorizontal, Mail } from "lucide-react";
 
 const statusColors: Record<string, string> = {
-  VIP:      "text-[#C9A55A] bg-[#C9A55A]/10 border-[#C9A55A]/20",
-  Active:   "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-  Inactive: "text-[#2C2438] bg-[#1A1620] border-[#1A1620]",
+  VIP:      "text-[#C9A55A] bg-[#C9A55A]/10",
+  Active:   "text-emerald-400 bg-emerald-400/10",
+  Inactive: "text-[#4D4560] bg-[#1C1828]",
 };
 
 const filters = ["All", "VIP", "Active", "Inactive"];
@@ -47,13 +47,10 @@ export default function CustomersPage() {
             { label: "VIP Members",     value: vipCount,          sub: "Top spenders" },
             { label: "Total Revenue",   value: `$${totalRevenue.toLocaleString()}`, sub: "All time" },
           ].map((item) => (
-            <div key={item.label} className="bg-[#0F0C13] border border-[#141118] px-5 py-4">
-              <p className="text-[9px] tracking-[0.25em] uppercase text-[#554D60] mb-1"
-                style={{ fontFamily: "var(--font-manrope)" }}>{item.label}</p>
-              <p className="font-light text-2xl text-[#F2ECE4]"
-                style={{ fontFamily: "var(--font-cormorant)" }}>{item.value}</p>
-              <p className="text-[9px] text-[#2C2438] mt-1"
-                style={{ fontFamily: "var(--font-manrope)" }}>{item.sub}</p>
+            <div key={item.label} className="bg-[#110E16] border border-[#1C1828] px-5 py-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6378] mb-2">{item.label}</p>
+              <p className="text-[26px] font-bold text-[#E8E0F0] leading-none">{item.value}</p>
+              <p className="text-[11px] text-[#4D4560] mt-1.5">{item.sub}</p>
             </div>
           ))}
         </div>
@@ -62,14 +59,13 @@ export default function CustomersPage() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2C2438]" />
+              <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3D3550]" />
               <input
                 type="text"
                 placeholder="Search customers..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="bg-[#0F0C13] border border-[#141118] pl-8 pr-4 py-2.5 text-[10px] text-[#F2ECE4] placeholder:text-[#2C2438] focus:border-[#C9A55A] focus:outline-none transition-colors w-56"
-                style={{ fontFamily: "var(--font-manrope)" }}
+                className="bg-[#110E16] border border-[#1C1828] pl-8 pr-4 py-2.5 text-[12px] text-[#C0B8CC] placeholder:text-[#3D3550] focus:border-[#C9A55A]/50 focus:outline-none transition-colors w-56 rounded-sm"
               />
             </div>
             <div className="flex gap-1.5">
@@ -77,12 +73,11 @@ export default function CustomersPage() {
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
-                  className={`text-[9px] tracking-[0.15em] uppercase px-3 py-2 border transition-all duration-200 ${
+                  className={`text-[11px] font-medium px-3 py-1.5 border rounded-sm transition-all duration-200 ${
                     filter === f
-                      ? "border-[#C9A55A] text-[#C9A55A] bg-[#C9A55A]/5"
-                      : "border-[#141118] text-[#2C2438] hover:border-[#2C2438]"
+                      ? "border-[#C9A55A]/40 text-[#C9A55A] bg-[#C9A55A]/8"
+                      : "border-[#1C1828] text-[#4D4560] hover:border-[#2C2438] hover:text-[#6B6378]"
                   }`}
-                  style={{ fontFamily: "var(--font-manrope)" }}
                 >
                   {f}
                 </button>
@@ -94,16 +89,13 @@ export default function CustomersPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="bg-[#0F0C13] border border-[#141118] px-3 py-2.5 text-[10px] text-[#554D60] focus:outline-none"
-              style={{ fontFamily: "var(--font-manrope)" }}
+              className="bg-[#110E16] border border-[#1C1828] px-3 py-2.5 text-[12px] text-[#6B6378] focus:outline-none rounded-sm"
             >
               <option value="spend">Sort: Total Spend</option>
               <option value="bookings">Sort: Bookings</option>
               <option value="name">Sort: Name</option>
             </select>
-            <button className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-5 py-2.5 text-[10px] tracking-[0.15em] uppercase hover:bg-[#E8C99A] transition-colors"
-              style={{ fontFamily: "var(--font-manrope)" }}
-            >
+            <button className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm">
               <UserPlus size={12} /> Add Customer
             </button>
           </div>
@@ -111,7 +103,7 @@ export default function CustomersPage() {
 
         {/* Table */}
         <motion.div
-          className="bg-[#0F0C13] border border-[#141118] overflow-hidden"
+          className="bg-[#110E16] border border-[#1C1828] overflow-hidden"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -119,13 +111,9 @@ export default function CustomersPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#141118]">
+                <tr className="border-b border-[#1C1828]">
                   {["Customer", "Location", "Total Spend", "Bookings", "Last Visit", "Joined", "Status", ""].map((h) => (
-                    <th
-                      key={h}
-                      className="px-5 py-3 text-left text-[8px] tracking-[0.25em] uppercase text-[#2C2438]"
-                      style={{ fontFamily: "var(--font-manrope)" }}
-                    >
+                    <th key={h} className="px-5 py-2.5 text-left text-[10px] font-semibold uppercase tracking-[0.08em] text-[#4D4560]">
                       {h}
                     </th>
                   ))}
@@ -133,66 +121,46 @@ export default function CustomersPage() {
               </thead>
               <tbody>
                 {filtered.map((c) => (
-                  <tr
-                    key={c.id}
-                    className="border-b border-[#0D0B0E] hover:bg-[#141118] transition-colors duration-150 group"
-                  >
-                    <td className="px-5 py-4">
+                  <tr key={c.id} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors duration-150 group">
+                    <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 bg-[#141118] border border-[#2C2438] flex items-center justify-center flex-shrink-0">
-                          <span className="text-[10px] text-[#C9A55A]" style={{ fontFamily: "var(--font-cormorant)" }}>
+                        <div className="w-7 h-7 bg-[#1C1828] border border-[#2C2438] rounded-sm flex items-center justify-center flex-shrink-0">
+                          <span className="text-[10px] font-bold text-[#C9A55A]">
                             {c.name.split(" ").map((n) => n[0]).join("")}
                           </span>
                         </div>
                         <div>
-                          <div className="text-[11px] text-[#F2ECE4]" style={{ fontFamily: "var(--font-manrope)" }}>
-                            {c.name}
-                          </div>
-                          <div className="text-[9px] text-[#2C2438]" style={{ fontFamily: "var(--font-manrope)" }}>
-                            {c.email}
-                          </div>
+                          <div className="text-[13px] font-medium text-[#C0B8CC]">{c.name}</div>
+                          <div className="text-[11px] text-[#4D4560]">{c.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="text-[10px] text-[#554D60]" style={{ fontFamily: "var(--font-manrope)" }}>
-                        {c.location}
-                      </span>
+                    <td className="px-5 py-3">
+                      <span className="text-[12px] text-[#6B6378]">{c.location}</span>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="text-[11px] font-medium text-[#C9A55A]" style={{ fontFamily: "var(--font-manrope)" }}>
-                        ${c.totalSpend.toLocaleString()}
-                      </span>
+                    <td className="px-5 py-3">
+                      <span className="text-[13px] font-semibold text-[#C9A55A]">${c.totalSpend.toLocaleString()}</span>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="text-[11px] text-[#887A90]" style={{ fontFamily: "var(--font-manrope)" }}>
-                        {c.bookings}
-                      </span>
+                    <td className="px-5 py-3">
+                      <span className="text-[13px] text-[#9B93A8]">{c.bookings}</span>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="text-[10px] text-[#554D60]" style={{ fontFamily: "var(--font-manrope)" }}>
-                        {c.lastVisit}
-                      </span>
+                    <td className="px-5 py-3">
+                      <span className="text-[12px] text-[#6B6378]">{c.lastVisit}</span>
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="text-[10px] text-[#2C2438]" style={{ fontFamily: "var(--font-manrope)" }}>
-                        {c.joined}
-                      </span>
+                    <td className="px-5 py-3">
+                      <span className="text-[12px] text-[#4D4560]">{c.joined}</span>
                     </td>
-                    <td className="px-5 py-4">
-                      <span
-                        className={`text-[9px] tracking-[0.1em] uppercase px-2 py-1 border ${statusColors[c.status]}`}
-                        style={{ fontFamily: "var(--font-manrope)" }}
-                      >
+                    <td className="px-5 py-3">
+                      <span className={`text-[11px] font-semibold px-2 py-1 rounded-sm ${statusColors[c.status]}`}>
                         {c.status}
                       </span>
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-3">
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-6 h-6 border border-[#2C2438] flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#2C2438] transition-all">
+                        <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#4D4560] transition-all">
                           <Mail size={10} />
                         </button>
-                        <button className="w-6 h-6 border border-[#2C2438] flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#2C2438] transition-all">
+                        <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#4D4560] transition-all">
                           <MoreHorizontal size={10} />
                         </button>
                       </div>

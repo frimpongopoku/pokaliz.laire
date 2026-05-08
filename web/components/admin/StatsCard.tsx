@@ -2,7 +2,6 @@ interface StatsCardProps {
   label: string;
   value: string;
   change: number;
-  unit?: string;
   icon?: React.ReactNode;
   accent?: string;
 }
@@ -11,50 +10,32 @@ export function StatsCard({ label, value, change, icon, accent = "#C9A55A" }: St
   const positive = change >= 0;
 
   return (
-    <div className="bg-[#0F0C13] border border-[#141118] p-6 hover:border-[#2C2438] transition-colors duration-300">
-      <div className="flex items-start justify-between mb-4">
-        <p
-          className="text-[9px] tracking-[0.3em] uppercase text-[#554D60]"
-          style={{ fontFamily: "var(--font-manrope)" }}
-        >
+    <div className="bg-[#110E16] border border-[#1C1828] p-5 hover:border-[#2C2438] transition-colors duration-200">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B6378]">
           {label}
         </p>
         {icon && (
-          <div
-            className="w-7 h-7 flex items-center justify-center opacity-30"
-            style={{ color: accent }}
-          >
-            {icon}
-          </div>
+          <div className="text-[#3D3550]">{icon}</div>
         )}
       </div>
 
-      <p
-        className="font-light text-3xl text-[#F2ECE4] leading-none mb-3"
-        style={{ fontFamily: "var(--font-cormorant)", color: undefined }}
-      >
+      <p className="text-[26px] font-bold text-[#E8E0F0] leading-none mb-3 tracking-tight">
         {value}
       </p>
 
-      <div className="flex items-center gap-1.5">
-        <span
-          className={`text-[10px] font-medium ${positive ? "text-emerald-500" : "text-rose-500"}`}
-          style={{ fontFamily: "var(--font-manrope)" }}
-        >
-          {positive ? "↑" : "↓"} {Math.abs(change)}%
-        </span>
-        <span
-          className="text-[9px] text-[#2C2438]"
-          style={{ fontFamily: "var(--font-manrope)" }}
-        >
-          vs last month
-        </span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <span className={`text-[11px] font-semibold ${positive ? "text-emerald-400" : "text-rose-400"}`}>
+            {positive ? "↑" : "↓"} {Math.abs(change)}%
+          </span>
+          <span className="text-[11px] text-[#4D4560]">vs last month</span>
+        </div>
       </div>
 
-      {/* Mini sparkline bar */}
-      <div className="mt-4 h-1 bg-[#141118] w-full">
+      <div className="mt-3 h-1 bg-[#1C1828] w-full rounded-full">
         <div
-          className="h-full transition-all duration-700"
+          className="h-full rounded-full transition-all duration-700"
           style={{
             width: `${Math.min(100, 40 + change * 2)}%`,
             backgroundColor: positive ? accent : "#554D60",
