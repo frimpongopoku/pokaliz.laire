@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "changelog": [
+    {
+      "version": "0.1.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Initial customer-facing UI — homepage, services, booking wizard, shop. All dummy data. Dark luxury aesthetic (Noir Élégance)."
+    }
+  ]
+}
