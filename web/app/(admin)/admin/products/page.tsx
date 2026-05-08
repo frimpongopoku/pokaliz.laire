@@ -3,8 +3,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { ProductSheet } from "@/components/admin/ProductSheet";
 import { adminProducts } from "@/lib/admin-data";
 import { Search, Plus, LayoutGrid, List, Edit, Trash2, AlertTriangle } from "lucide-react";
+
+type AdminProduct = typeof adminProducts[number];
 
 const stockColors: Record<string, string> = {
   "In Stock":     "text-emerald-400 bg-emerald-400/10",
@@ -18,6 +21,8 @@ export default function ProductsPage() {
   const [view, setView] = useState<"grid" | "list">("list");
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<AdminProduct | undefined>(undefined);
 
   const filtered = adminProducts
     .filter((p) => category === "All" || p.category === category)
@@ -26,9 +31,21 @@ export default function ProductsPage() {
   const totalRevenue = adminProducts.reduce((s, p) => s + p.price * p.sold, 0);
   const lowStock = adminProducts.filter((p) => p.status !== "In Stock").length;
 
+  function openAdd() {
+    setEditingProduct(undefined);
+    setSheetOpen(true);
+  }
+
+  function openEdit(p: AdminProduct) {
+    setEditingProduct(p);
+    setSheetOpen(true);
+  }
+
   return (
     <>
       <AdminHeader title="Products" subtitle={`${adminProducts.length} products`} />
+
+      <ProductSheet open={sheetOpen} onOpenChange={setSheetOpen} product={editingProduct} />
 
       <div className="p-6 space-y-5">
         {/* Summary */}
@@ -94,7 +111,10 @@ export default function ProductsPage() {
                 <LayoutGrid size={13} />
               </button>
             </div>
-            <button className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm">
+            <button
+              onClick={openAdd}
+              className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm"
+            >
               <Plus size={13} /> Add Product
             </button>
           </div>
@@ -117,7 +137,10 @@ export default function ProductsPage() {
                     {p.category}
                   </span>
                   <div className="absolute inset-0 bg-[#0D0B0E]/0 group-hover:bg-[#0D0B0E]/40 transition-all flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                    <button className="w-7 h-7 bg-[#0D0B0E]/80 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#9B93A8] transition-all">
+                    <button
+                      onClick={() => openEdit(p)}
+                      className="w-7 h-7 bg-[#0D0B0E]/80 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#9B93A8] transition-all"
+                    >
                       <Edit size={11} />
                     </button>
                     <button className="w-7 h-7 bg-[#0D0B0E]/80 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-rose-500 hover:text-rose-400 text-[#9B93A8] transition-all">
@@ -177,8 +200,15 @@ export default function ProductsPage() {
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#4D4560] transition-all"><Edit size={10} /></button>
-                        <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-rose-500 hover:text-rose-400 text-[#4D4560] transition-all"><Trash2 size={10} /></button>
+                        <button
+                          onClick={() => openEdit(p)}
+                          className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#4D4560] transition-all"
+                        >
+                          <Edit size={10} />
+                        </button>
+                        <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-rose-500 hover:text-rose-400 text-[#4D4560] transition-all">
+                          <Trash2 size={10} />
+                        </button>
                       </div>
                     </td>
                   </tr>
