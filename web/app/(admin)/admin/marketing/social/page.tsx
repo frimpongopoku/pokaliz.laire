@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { SocialPostSheet, type SocialPost } from "@/components/admin/SocialPostSheet";
 import { socialPosts as initialData } from "@/lib/data";
-import { Plus, Heart, Play, Eye, EyeOff, Edit, Trash2, ExternalLink, Instagram } from "lucide-react";
+import { Plus, Heart, Play, Eye, EyeOff, Edit, Trash2, ExternalLink, Share2 } from "lucide-react";
 
 // Augment the static data with the new fields
 const seed: SocialPost[] = initialData.map((p) => ({
@@ -80,7 +80,7 @@ export default function SocialFeedPage() {
         {/* Toolbar */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-[#4D4560]">
-            <Instagram size={14} />
+            <Share2 size={14} />
             <span className="text-[12px] font-medium">Landing page feed · {visibleCount} posts visible</span>
           </div>
           <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export default function SocialFeedPage() {
 
           {posts.length === 0 ? (
             <div className="bg-[#110E16] border border-dashed border-[#2C2438] rounded-sm py-20 flex flex-col items-center justify-center gap-3">
-              <Instagram size={24} className="text-[#2C2438]" />
+              <Share2 size={24} className="text-[#2C2438]" />
               <p className="text-[13px] font-medium text-[#4D4560]">No posts yet</p>
               <button onClick={openAdd} className="text-[12px] font-medium text-[#C9A55A] hover:text-[#E8C99A] transition-colors">
                 + Add your first post

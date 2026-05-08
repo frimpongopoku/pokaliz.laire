@@ -15,7 +15,7 @@ import {
   ChevronRight,
   Globe,
   Megaphone,
-  Instagram,
+  Share2,
   ChevronDown,
 } from "lucide-react";
 
@@ -28,7 +28,7 @@ const navItems = [
 ];
 
 const marketingItems = [
-  { href: "/admin/marketing/social", label: "Social Feed", icon: Instagram },
+  { href: "/admin/marketing/social", label: "Social Feed", icon: Share2 },
 ];
 
 const bottomItems = [
