@@ -6,7 +6,8 @@ import { AdminHeader } from "@/components/admin/AdminHeader";
 import { appointments, type AppointmentStatus, type Appointment } from "@/lib/admin-data";
 import { AppointmentViewSheet } from "@/components/admin/AppointmentViewSheet";
 import { NewBookingSheet } from "@/components/admin/NewBookingSheet";
-import { Search, Plus, Clock, MoreHorizontal, Check, X, RefreshCw } from "lucide-react";
+import { CalendarView } from "@/components/admin/CalendarView";
+import { Search, Plus, Clock, MoreHorizontal, Check, X, RefreshCw, List, CalendarDays } from "lucide-react";
 
 const ALL_STATUSES: (AppointmentStatus | "All")[] = [
   "All", "Confirmed", "Pending", "In Progress", "Completed", "Cancelled", "No Show",
@@ -26,6 +27,7 @@ export default function AppointmentsPage() {
   const [search, setSearch] = useState("");
   const [viewingAppt, setViewingAppt] = useState<Appointment | undefined>(undefined);
   const [newBookingOpen, setNewBookingOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
 
   const filtered = appointments.filter((a) => {
     const matchStatus = activeStatus === "All" || a.status === activeStatus;
@@ -62,12 +64,29 @@ export default function AppointmentsPage() {
               className="bg-[#110E16] border border-[#1C1828] pl-8 pr-4 py-2.5 text-[12px] text-[#C0B8CC] placeholder:text-[#3D3550] focus:border-[#C9A55A]/50 focus:outline-none transition-colors w-64 rounded-sm"
             />
           </div>
-          <button
-            onClick={() => setNewBookingOpen(true)}
-            className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm"
-          >
-            <Plus size={13} /> New Booking
-          </button>
+          <div className="flex items-center gap-2">
+            {/* List | Calendar toggle */}
+            <div className="flex border border-[#1C1828] rounded-sm overflow-hidden">
+              <button
+                onClick={() => setViewMode("list")}
+                className={`flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium transition-all ${viewMode === "list" ? "bg-[#1C1828] text-[#C0B8CC]" : "text-[#4D4560] hover:text-[#6B6378]"}`}
+              >
+                <List size={13} /> List
+              </button>
+              <button
+                onClick={() => setViewMode("calendar")}
+                className={`flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium transition-all border-l border-[#1C1828] ${viewMode === "calendar" ? "bg-[#1C1828] text-[#C0B8CC]" : "text-[#4D4560] hover:text-[#6B6378]"}`}
+              >
+                <CalendarDays size={13} /> Calendar
+              </button>
+            </div>
+            <button
+              onClick={() => setNewBookingOpen(true)}
+              className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm"
+            >
+              <Plus size={13} /> New Booking
+            </button>
+          </div>
         </div>
 
         {/* Status tabs */}
@@ -90,8 +109,13 @@ export default function AppointmentsPage() {
           ))}
         </div>
 
+        {/* Calendar view */}
+        {viewMode === "calendar" && (
+          <CalendarView appointments={filtered} onAppointmentClick={setViewingAppt} />
+        )}
+
         {/* Table */}
-        <motion.div
+        {viewMode === "list" && <motion.div
           className="bg-[#110E16] border border-[#1C1828] overflow-hidden"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -172,7 +196,7 @@ export default function AppointmentsPage() {
               </div>
             )}
           </div>
-        </motion.div>
+        </motion.div>}
       </div>
     </>
   );
