@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AddStaffSheet } from "@/components/admin/AddStaffSheet";
 import { adminStaff } from "@/lib/admin-data";
 import { UserPlus, Star, Mail, MoreHorizontal } from "lucide-react";
 
@@ -20,6 +21,7 @@ const statusDot: Record<string, string> = {
 
 export default function StaffPage() {
   const [view, setView] = useState<"cards" | "table">("cards");
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const totalBookings = adminStaff.reduce((s, m) => s + m.bookingsThisMonth, 0);
   const totalRevenue  = adminStaff.reduce((s, m) => s + m.totalRevenue, 0);
@@ -60,9 +62,13 @@ export default function StaffPage() {
               </button>
             ))}
           </div>
-          <button className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm">
+          <button
+            onClick={() => setSheetOpen(true)}
+            className="flex items-center gap-2 bg-[#C9A55A] text-[#0D0B0E] px-4 py-2.5 text-[12px] font-semibold hover:bg-[#E8C99A] transition-colors rounded-sm"
+          >
             <UserPlus size={12} /> Invite Staff
           </button>
+          <AddStaffSheet open={sheetOpen} onOpenChange={setSheetOpen} />
         </div>
 
         {/* Cards view */}
