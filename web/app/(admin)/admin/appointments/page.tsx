@@ -6,6 +6,7 @@ import { AdminHeader } from "@/components/admin/AdminHeader";
 import { appointments, type AppointmentStatus, type Appointment } from "@/lib/admin-data";
 import { AppointmentViewSheet } from "@/components/admin/AppointmentViewSheet";
 import { NewBookingSheet } from "@/components/admin/NewBookingSheet";
+import { RescheduleSheet } from "@/components/admin/RescheduleSheet";
 import { CalendarView } from "@/components/admin/CalendarView";
 import { Search, Plus, Clock, MoreHorizontal, Check, X, RefreshCw, List, CalendarDays } from "lucide-react";
 
@@ -26,6 +27,7 @@ export default function AppointmentsPage() {
   const [activeStatus, setActiveStatus] = useState<AppointmentStatus | "All">("All");
   const [search, setSearch] = useState("");
   const [viewingAppt, setViewingAppt] = useState<Appointment | undefined>(undefined);
+  const [reschedulingAppt, setReschedulingAppt] = useState<Appointment | undefined>(undefined);
   const [newBookingOpen, setNewBookingOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
 
@@ -49,6 +51,7 @@ export default function AppointmentsPage() {
     <>
       <AdminHeader title="Appointments" subtitle={`${filtered.length} total`} />
       <AppointmentViewSheet open={!!viewingAppt} onOpenChange={(o) => !o && setViewingAppt(undefined)} appointment={viewingAppt} />
+      <RescheduleSheet open={!!reschedulingAppt} onOpenChange={(o) => !o && setReschedulingAppt(undefined)} appointment={reschedulingAppt} />
       <NewBookingSheet open={newBookingOpen} onOpenChange={setNewBookingOpen} />
 
       <div className="p-6 space-y-5">
@@ -172,7 +175,10 @@ export default function AppointmentsPage() {
                         )}
                         {(appt.status === "Pending" || appt.status === "Confirmed") && (
                           <>
-                            <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-amber-500 hover:text-amber-400 text-[#4D4560] transition-all">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setReschedulingAppt(appt); }}
+                              className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-amber-500 hover:text-amber-400 text-[#4D4560] transition-all"
+                            >
                               <RefreshCw size={10} />
                             </button>
                             <button className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-rose-500 hover:text-rose-400 text-[#4D4560] transition-all">

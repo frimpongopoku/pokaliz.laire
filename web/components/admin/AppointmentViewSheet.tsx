@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { X, Clock, Calendar, User, Scissors, DollarSign, Check, RefreshCw, Ban, MessageSquare } from "lucide-react";
 import {
   Sheet,
@@ -9,6 +10,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { type Appointment, type AppointmentStatus } from "@/lib/admin-data";
+import { RescheduleSheet } from "@/components/admin/RescheduleSheet";
 
 const statusConfig: Record<AppointmentStatus, { text: string; bg: string; border: string; dot: string }> = {
   Confirmed:    { text: "text-emerald-400", bg: "bg-emerald-400/10", border: "border-emerald-400/20", dot: "bg-emerald-400" },
@@ -34,6 +36,8 @@ interface AppointmentViewSheetProps {
 }
 
 export function AppointmentViewSheet({ open, onOpenChange, appointment }: AppointmentViewSheetProps) {
+  const [rescheduleOpen, setRescheduleOpen] = useState(false);
+
   if (!appointment) return null;
 
   const cfg = statusConfig[appointment.status];
@@ -44,6 +48,13 @@ export function AppointmentViewSheet({ open, onOpenChange, appointment }: Appoin
   const initials = appointment.client.split(" ").map((n) => n[0]).join("").slice(0, 2);
 
   return (
+    <>
+    <RescheduleSheet
+      open={rescheduleOpen}
+      onOpenChange={setRescheduleOpen}
+      appointment={appointment}
+      onConfirm={() => onOpenChange(false)}
+    />
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
@@ -144,7 +155,10 @@ export function AppointmentViewSheet({ open, onOpenChange, appointment }: Appoin
               </button>
             )}
             {canReschedule && (
-              <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[12px] font-semibold bg-[#110E16] border border-[#1C1828] text-[#6B6378] rounded-sm hover:border-[#2C2438] hover:text-[#9B93A8] transition-all">
+              <button
+                onClick={() => setRescheduleOpen(true)}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[12px] font-semibold bg-[#110E16] border border-[#1C1828] text-[#6B6378] rounded-sm hover:border-[#2C2438] hover:text-[#9B93A8] transition-all"
+              >
                 <RefreshCw size={12} /> Reschedule
               </button>
             )}
@@ -165,5 +179,6 @@ export function AppointmentViewSheet({ open, onOpenChange, appointment }: Appoin
         )}
       </SheetContent>
     </Sheet>
+    </>
   );
 }

@@ -1,6 +1,12 @@
 {
-  "version": "0.9.0",
+  "version": "0.10.0",
   "changelog": [
+    {
+      "version": "0.10.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Reschedule flow — slide-over sheet with new date/time pickers, collapsible staff reassignment grid with status dots, reason chips, notes, and a live from→to changes summary pill. Wired into AppointmentViewSheet footer and inline table actions."
+    },
     {
       "version": "0.9.0",
       "date": "2026-05-08",
