@@ -1,6 +1,12 @@
 {
-  "version": "0.6.0",
+  "version": "0.7.0",
   "changelog": [
+    {
+      "version": "0.7.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "Social Feed admin page under Marketing sidebar group — grid preview matching landing page layout, add/edit post sheet (image URL, type, caption, hashtag, gradient fallback, visibility toggle), table management view, add slot in grid."
+    },
     {
       "version": "0.6.0",
       "date": "2026-05-08",
