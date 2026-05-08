@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
-import { appointments, type AppointmentStatus } from "@/lib/admin-data";
+import { appointments, type AppointmentStatus, type Appointment } from "@/lib/admin-data";
+import { AppointmentViewSheet } from "@/components/admin/AppointmentViewSheet";
 import { Search, Plus, Clock, MoreHorizontal, Check, X, RefreshCw } from "lucide-react";
 
 const ALL_STATUSES: (AppointmentStatus | "All")[] = [
@@ -22,6 +23,7 @@ const statusColors: Record<string, string> = {
 export default function AppointmentsPage() {
   const [activeStatus, setActiveStatus] = useState<AppointmentStatus | "All">("All");
   const [search, setSearch] = useState("");
+  const [viewingAppt, setViewingAppt] = useState<Appointment | undefined>(undefined);
 
   const filtered = appointments.filter((a) => {
     const matchStatus = activeStatus === "All" || a.status === activeStatus;
@@ -42,6 +44,7 @@ export default function AppointmentsPage() {
   return (
     <>
       <AdminHeader title="Appointments" subtitle={`${filtered.length} total`} />
+      <AppointmentViewSheet open={!!viewingAppt} onOpenChange={(o) => !o && setViewingAppt(undefined)} appointment={viewingAppt} />
 
       <div className="p-6 space-y-5">
         {/* Toolbar */}
@@ -101,7 +104,7 @@ export default function AppointmentsPage() {
               </thead>
               <tbody>
                 {filtered.map((appt) => (
-                  <tr key={appt.id} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors duration-150 group">
+                  <tr key={appt.id} onClick={() => setViewingAppt(appt)} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors duration-150 group cursor-pointer">
                     <td className="px-5 py-3">
                       <div className="text-[13px] font-medium text-[#C0B8CC]">{appt.client}</div>
                       <div className="text-[11px] text-[#4D4560]">{appt.email}</div>

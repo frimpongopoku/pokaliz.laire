@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { ProductSheet } from "@/components/admin/ProductSheet";
+import { ProductViewSheet } from "@/components/admin/ProductViewSheet";
 import { adminProducts } from "@/lib/admin-data";
 import { Search, Plus, LayoutGrid, List, Edit, Trash2, AlertTriangle } from "lucide-react";
 
@@ -23,6 +24,7 @@ export default function ProductsPage() {
   const [search, setSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<AdminProduct | undefined>(undefined);
+  const [viewingProduct, setViewingProduct] = useState<AdminProduct | undefined>(undefined);
 
   const filtered = adminProducts
     .filter((p) => category === "All" || p.category === category)
@@ -46,6 +48,12 @@ export default function ProductsPage() {
       <AdminHeader title="Products" subtitle={`${adminProducts.length} products`} />
 
       <ProductSheet open={sheetOpen} onOpenChange={setSheetOpen} product={editingProduct} />
+      <ProductViewSheet
+        open={!!viewingProduct}
+        onOpenChange={(o) => !o && setViewingProduct(undefined)}
+        product={viewingProduct}
+        onEdit={(p) => { setEditingProduct(p); setSheetOpen(true); }}
+      />
 
       <div className="p-6 space-y-5">
         {/* Summary */}
@@ -129,7 +137,8 @@ export default function ProductsPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="group bg-[#110E16] border border-[#1C1828] hover:border-[#2C2438] transition-all overflow-hidden rounded-sm"
+                className="group bg-[#110E16] border border-[#1C1828] hover:border-[#2C2438] transition-all overflow-hidden rounded-sm cursor-pointer"
+                onClick={() => setViewingProduct(p)}
               >
                 <div className={`relative bg-gradient-to-br ${p.gradient} aspect-square flex items-center justify-center`}>
                   <div className="absolute w-16 h-16 rounded-full blur-xl opacity-40" style={{ backgroundColor: p.accent }} />
@@ -138,7 +147,7 @@ export default function ProductsPage() {
                   </span>
                   <div className="absolute inset-0 bg-[#0D0B0E]/0 group-hover:bg-[#0D0B0E]/40 transition-all flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                     <button
-                      onClick={() => openEdit(p)}
+                      onClick={(e) => { e.stopPropagation(); openEdit(p); }}
                       className="w-7 h-7 bg-[#0D0B0E]/80 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#9B93A8] transition-all"
                     >
                       <Edit size={11} />
@@ -183,7 +192,7 @@ export default function ProductsPage() {
               </thead>
               <tbody>
                 {filtered.map((p) => (
-                  <tr key={p.id} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors group">
+                  <tr key={p.id} onClick={() => setViewingProduct(p)} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors group cursor-pointer">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 bg-gradient-to-br ${p.gradient} flex-shrink-0 rounded-sm`} />
@@ -201,7 +210,7 @@ export default function ProductsPage() {
                     <td className="px-5 py-3">
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
-                          onClick={() => openEdit(p)}
+                          onClick={(e) => { e.stopPropagation(); openEdit(p); }}
                           className="w-6 h-6 border border-[#2C2438] rounded-sm flex items-center justify-center hover:border-[#C9A55A] hover:text-[#C9A55A] text-[#4D4560] transition-all"
                         >
                           <Edit size={10} />

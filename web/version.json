@@ -1,6 +1,12 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "changelog": [
+    {
+      "version": "0.6.0",
+      "date": "2026-05-08",
+      "type": "minor",
+      "description": "View panels for appointments, products, and staff — slide-over sheets with full details, action buttons, activity timelines, and cross-entity links (staff view shows recent appointments; product view links into edit sheet)."
+    },
     {
       "version": "0.5.0",
       "date": "2026-05-08",

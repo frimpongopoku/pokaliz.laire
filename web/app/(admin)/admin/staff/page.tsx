@@ -4,7 +4,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AddStaffSheet } from "@/components/admin/AddStaffSheet";
+import { StaffViewSheet } from "@/components/admin/StaffViewSheet";
 import { adminStaff } from "@/lib/admin-data";
+
+type StaffMember = typeof adminStaff[number];
 import { UserPlus, Star, Mail, MoreHorizontal } from "lucide-react";
 
 const statusColors: Record<string, string> = {
@@ -22,6 +25,7 @@ const statusDot: Record<string, string> = {
 export default function StaffPage() {
   const [view, setView] = useState<"cards" | "table">("cards");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [viewingMember, setViewingMember] = useState<StaffMember | undefined>(undefined);
 
   const totalBookings = adminStaff.reduce((s, m) => s + m.bookingsThisMonth, 0);
   const totalRevenue  = adminStaff.reduce((s, m) => s + m.totalRevenue, 0);
@@ -69,6 +73,11 @@ export default function StaffPage() {
             <UserPlus size={12} /> Invite Staff
           </button>
           <AddStaffSheet open={sheetOpen} onOpenChange={setSheetOpen} />
+          <StaffViewSheet
+            open={!!viewingMember}
+            onOpenChange={(o) => !o && setViewingMember(undefined)}
+            member={viewingMember}
+          />
         </div>
 
         {/* Cards view */}
@@ -80,7 +89,8 @@ export default function StaffPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                className="bg-[#110E16] border border-[#1C1828] hover:border-[#2C2438] transition-all p-5 group rounded-sm"
+                onClick={() => setViewingMember(member)}
+                className="bg-[#110E16] border border-[#1C1828] hover:border-[#2C2438] transition-all p-5 group rounded-sm cursor-pointer"
               >
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
@@ -138,7 +148,7 @@ export default function StaffPage() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
                   <button className="flex-1 flex items-center justify-center gap-1.5 border border-[#2C2438] rounded-sm py-2 text-[11px] font-medium text-[#6B6378] hover:border-[#C9A55A] hover:text-[#C9A55A] transition-all">
                     <Mail size={10} /> Message
                   </button>
@@ -170,7 +180,7 @@ export default function StaffPage() {
               </thead>
               <tbody>
                 {adminStaff.map((m) => (
-                  <tr key={m.id} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors group">
+                  <tr key={m.id} onClick={() => setViewingMember(m)} className="border-b border-[#0D0B0E] hover:bg-[#1C1828]/40 transition-colors group cursor-pointer">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
                         <div className={`relative w-8 h-8 bg-gradient-to-br ${m.gradient} border border-[#2C2438] rounded-sm flex items-center justify-center`}>
