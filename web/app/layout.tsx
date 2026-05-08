@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -25,14 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pokaliz Laire — Luxury Beauty House",
-  description:
-    "Premium beauty services, curated products, and expert stylists. Book your transformative experience today.",
-  openGraph: {
-    title: "Pokaliz Laire",
-    description: "Luxury Beauty House",
-    siteName: "Pokaliz Laire",
-  },
+  title: "Pokaliz Laire",
+  description: "Luxury Beauty House",
 };
 
 export default function RootLayout({
@@ -43,11 +35,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${manrope.variable} ${geistMono.variable} antialiased`}
     >
-      <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
